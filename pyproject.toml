@@ -52,7 +52,7 @@ cov = [
 ]
 
 [[tool.hatch.envs.all.matrix]]
-python = ["3.7", "3.8", "3.9", "3.10", "3.11"]
+python = ["3.11"]
 
 [tool.hatch.envs.lint]
 detached = true
@@ -78,13 +78,13 @@ all = [
 ]
 
 [tool.black]
-target-version = ["py37"]
-line-length = 120
+target-version = ["py311"]
+line-length = 80
 skip-string-normalization = true
 
 [tool.ruff]
-target-version = "py37"
-line-length = 120
+target-version = "py311"
+line-length = 80
 select = [
   "A",
   "ARG",
@@ -121,6 +121,8 @@ ignore = [
   "S105", "S106", "S107",
   # Ignore complexity
   "C901", "PLR0911", "PLR0912", "PLR0913", "PLR0915",
+  # Ignore PEP 8: E133 closing bracket is missing indentation
+  "E133",
 ]
 unfixable = [
   # Don't touch unused imports
