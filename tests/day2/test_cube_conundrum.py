@@ -18,7 +18,9 @@ def provide_list_of_games() -> List[str]:
     )
     source_path = source_folder / "cube_conundrum.md"
     with source_path.open("r") as file:
-        return [line.strip() for line in file.readlines() if 'Game' in line[:8]]
+        return [
+            line.strip() for line in file.readlines() if ' Game' in line[:8]
+        ]
 
 
 def test_sum_ids_of_possible_games_with_constraint(provide_list_of_games):

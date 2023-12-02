@@ -1,7 +1,7 @@
 from pathlib import Path
-from typing import Set
 
-from .bag import Bag
+from advent_of_code_2023.day2.bag import Bag
+from advent_of_code_2023.day2.game import Game
 
 
 def sum_ids_of_possible_games_with_constraint(
@@ -10,15 +10,11 @@ def sum_ids_of_possible_games_with_constraint(
 ) -> int:
     """Determine which games are possible, given a constraint. Then, sum their ids.
     The default constraint is (12,13,14)"""
-
-
-def parse_game(game: str) -> (int, Set[Bag]):
-    """Return a list of Bag describing the matches of a Game"""
-
-    header, all_matches = game.split(": ")
-    game_id = header.split()[1]
-    matches = all_matches.split("; ")
-    return (game_id, set((Bag.init_from_string(match) for match in matches)))
+    all_games = [Game(game) for game in games]
+    possible_game_ids = [
+        game.id for game in all_games if game.is_possible(constraint)
+    ]
+    return sum(possible_game_ids)
 
 
 if __name__ == "__main__":
