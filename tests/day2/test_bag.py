@@ -25,7 +25,7 @@ def test_satisfy_constraint(test_input, constraint, expected):
 @pytest.mark.parametrize(
     'init_string, expected_values',
     [
-        ('1 red, 1 green, 2 blue', (1, 1, 3)),
+        ('1 red, 1 green, 2 blue', (1, 1, 2)),
         ('1 red, 2 green', (1, 2)),
         ('1 red, 2 blue', (1, 0, 2)),
         ('1 green, 2 red', (2, 1, 0)),
