@@ -46,7 +46,7 @@ def test_cluster_coordinates_and_enumerate(
     points_stub, expected_indexed_coordinate_cluster
 ):
     actual = islands.cluster_coordinates_and_enumerate(points_stub)
-    assert type(actual) == type(expected_indexed_coordinate_cluster)
+    assert type(actual) is type(expected_indexed_coordinate_cluster)
     assert actual == expected_indexed_coordinate_cluster
 
 
@@ -91,3 +91,27 @@ def test_assemble_value_coord_cluster_from_coord_cluster(
         digits_stub, expected_indexed_coordinate_cluster
     )
     assert actual == expected_value_coords_pair_cluster
+
+
+@pytest.mark.parametrize(
+    'input_value, expected_result',
+    [
+        ("1.", False),
+        ("1*", True),
+        ("*1", True),
+        (".1", False),
+        (".1.\n..*", True),
+        (".1.\n.*.", True),
+        (".1.\n*..", True),
+        ("..*\n.1.", True),
+        (".*.\n.1.", True),
+        ("*..\n.1.", True),
+        ("1..\n..*", False),
+        ("1.*\n..*", False),
+    ],
+)
+def test_has_neighboring_symbol_can_find_values(input_value, expected_result):
+    test_board = Board(input_value.split("\n"))
+    island = islands.find_islands(test_board)[0]
+    actual = island.has_neighboring_symbol
+    assert actual == expected_result
