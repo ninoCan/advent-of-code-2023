@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List
+from typing import List, Tuple, Union, Dict
 
 import numpy as np
 
@@ -17,14 +17,14 @@ class NumberIsland:
         neighboring_symbols = {
             self.board.get_neighbors_of_cell(*point.tuple).flatten()
             for point in self.points
-            if not str.isdigit(self.board[*point.tuple])
+            if not str.isdigit(self.board.content[*point.tuple])
         }
-        return len(set) != 0
+        return len(neighboring_symbols) != 0
 
 
 def cluster_coordinates_and_enumerate(
     points: List[Coords],
-) -> List[List[Coords]]:
+) -> List[List[Tuple[int, Coords]]]:
     """Return a list of lists where each list contains the coordinates of adjacent points"""
     clusters = []
 
@@ -55,6 +55,29 @@ def are_adjacent(left: Coords, right: Coords) -> bool:
 
 def find_islands(board: Board) -> List[NumberIsland]:
     row_indices, col_indices = np.where(np.char.isdigit(board.content))
-    digits = board.content[row_indices, col_indices]
-    all_coordinates = list(zip(row_indices, col_indices))
-    digits_and_coordinates = list(zip(digits, all_coordinates))
+    all_digits = board.content[row_indices, col_indices]
+    all_coordinates = [Coords(*x_y) for x_y in zip(row_indices, col_indices)]
+
+    clustered_values = assemble_value_points_pair_cluster(
+        all_digits, all_coordinates
+    )
+
+    return instantiate_NumberIsland_list(board, clustered_values)
+
+
+def instantiate_NumberIsland_list(board, clustered_values):
+    islands = []
+    for cluster in clustered_values:
+        points = [coord for _, coord in cluster]
+        digits = [digit for digit, _ in cluster]
+        value = int("".join(digits))
+        islands.append(NumberIsland(value, points, board))
+    return islands
+
+
+def assemble_value_points_pair_cluster(all_digits, all_coordinates):
+    indexed_coord_clusters = cluster_coordinates_and_enumerate(all_coordinates)
+    return [
+        [(all_digits[index], point) for (index, point) in cluster]
+        for cluster in indexed_coord_clusters
+    ]
