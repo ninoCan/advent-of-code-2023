@@ -14,10 +14,15 @@ class NumberIsland:
 
     @property
     def has_neighboring_symbol(self) -> bool:
-        neighboring_symbols = {
-            self.board.get_neighbors_of_cell(*point.tuple).flatten()
+        all_neighbors = [
+            self.board.get_neighbors_of_cell(*point.tuple)
             for point in self.points
-            if not str.isdigit(self.board.content[*point.tuple])
+        ]
+        neighboring_symbols = {
+            item
+            for sublist in all_neighbors
+            for item in sublist
+            if not str.isdigit(item)
         }
         return len(neighboring_symbols) != 0
 
@@ -26,12 +31,10 @@ def cluster_coordinates_and_enumerate(
     points: List[Coords],
 ) -> List[List[Tuple[int, Coords]]]:
     """Return a list of lists where each list contains the coordinates of adjacent points"""
-    clusters = []
-
     if not points:
-        clusters.append([])
-        return clusters
+        return [[]]
 
+    clusters = []
     current = points[0]
     current_cluster = [(0, current)]
 
