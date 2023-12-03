@@ -10,11 +10,26 @@
 - [Installation](#installation)
 - [License](#license)
 
-## Installation
+## Tips for the CLI-inclined player
 
-```console
-pip install advent-of-code-2023
-```
+### Save prompt as GFM
+Download today's prompt,
+and translate it on the flight into
+[GitHub Flavore Markdown](https://github.github.com/gfm/)
+(or any format you prefer) using 
+[curl](https://curl.se)+[pandoc](https://pandoc.org) :
+
+    curl https://adventofcode.com/<year>/day/<day> | pandoc -f html -t gfm -o <destination>
+
+### Download the input file
+In order to download the input file,
+since it is different for each user,
+you need to provide your session cookie!
+Locate and save AoC's session cookie using your browser.
+Append it to curl using:
+
+    curl --cookie "session=${AOC_SESSION_COOKIE}" https://adventofcode.com/<year>/day/<3>/input -o <destination-path>
+
 
 ## License
 
