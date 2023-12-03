@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List, Tuple, Union, Dict
+from typing import List, Tuple
 
 import numpy as np
 
@@ -13,18 +13,22 @@ class NumberIsland:
     board: Board
 
     @property
-    def has_neighboring_symbol(self) -> bool:
+    def adjacent_symbols(self) -> List[str]:
         all_neighbors = [
             self.board.get_neighbors_of_cell(*point.tuple)
             for point in self.points
         ]
-        neighboring_symbols = {
+
+        return [
             item
             for sublist in all_neighbors
             for item in sublist
             if not str.isdigit(item)
-        }
-        return len(neighboring_symbols) != 0
+        ]
+
+    @property
+    def has_neighboring_symbol(self) -> bool:
+        return len(self.adjacent_symbols) != 0
 
 
 def cluster_coordinates_and_enumerate(

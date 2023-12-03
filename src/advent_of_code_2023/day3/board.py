@@ -35,5 +35,5 @@ class Board:
             if (i, j) != coords.tuple
         ]
         return np.char.array(
-            [char for char in neighbors if char != '.'], unicode=True
+            [char for char in neighbors if char not in {'.', ''}], unicode=True
         )
