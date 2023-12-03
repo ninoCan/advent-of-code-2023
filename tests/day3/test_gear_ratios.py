@@ -13,7 +13,7 @@ from src.advent_of_code_2023.day3.gear_ratios import (
 def provide_test_lines() -> List[str]:
     source_path = (
         Path(getsourcefile(identify_and_sum_relevant_numbers)).resolve().parent
-    )
+    ) / 'gear_ratios.md'
     with source_path.open("r") as file:
         return [line.strip() for line in file.readlines()[30:40]]
 
