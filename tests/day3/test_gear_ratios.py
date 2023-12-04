@@ -6,6 +6,7 @@ import pytest
 
 from src.advent_of_code_2023.day3.gear_ratios import (
     identify_and_sum_relevant_numbers,
+    identify_and_sum_true_gears,
 )
 
 
@@ -21,4 +22,10 @@ def provide_test_lines() -> List[str]:
 def test_identify_and_sum_relevant_numbers(provide_test_lines):
     actual = identify_and_sum_relevant_numbers(provide_test_lines)
     expected = 4361
+    assert actual == expected
+
+
+def test_identify_and_sum_true_gears(provide_test_lines):
+    actual = identify_and_sum_true_gears(provide_test_lines)
+    expected = 467835
     assert actual == expected

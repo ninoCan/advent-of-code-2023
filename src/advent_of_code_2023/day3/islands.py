@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 import numpy as np
 
@@ -11,6 +11,31 @@ class NumberIsland:
     value: int
     points: List[Coords]
     board: Board
+    _gear_position: Optional[Coords] = None
+
+    @property
+    def gear_position(self):
+        if "*" not in self.adjacent_symbols:
+            return self._gear_position
+        rows = {
+            row
+            for coord in self.points
+            for row in range(coord.x - 1, coord.x + 2)
+            if row < self.board.height
+        }
+        cols = {
+            col
+            for coord in self.points
+            for col in range(coord.y - 1, coord.y + 2)
+            if col < self.board.width
+        }
+        self._gear_position = [
+            Coords(x, y)
+            for x in rows
+            for y in cols
+            if self.board.get(x, y) == "*"
+        ][0]
+        return self._gear_position
 
     @property
     def adjacent_symbols(self) -> List[str]:
@@ -18,7 +43,6 @@ class NumberIsland:
             self.board.get_neighbors_of_cell(*point.tuple)
             for point in self.points
         ]
-
         return [
             item
             for sublist in all_neighbors
