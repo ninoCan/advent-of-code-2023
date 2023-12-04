@@ -38,7 +38,7 @@ def calculate_instances_grand_total(all_instances):
 
 
 def update_instances(
-    cards_instances: Dict[int, int], remaining_lines
+    cards_instances: Dict[int, int], remaining_lines: List[str],
 ) -> Dict[int, int]:
     dict_copy = deepcopy(cards_instances)
     if not remaining_lines:
