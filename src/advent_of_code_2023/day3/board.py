@@ -25,6 +25,11 @@ class Board:
         self.width = len(content[0])
         self.content = np.char.array([[el for el in row] for row in content])
 
+    def get(self, x: int, y: int) -> str:
+        if x < self.height and y < self.width:
+            return str(self.content[x, y])
+        return ''
+
     def get_neighbors_of_cell(self, i: int, j: int) -> np.chararray:
         """Take the elements in a (at most) 3x3 slice centered around (x, y)"""
         coords = Coords(i, j)
