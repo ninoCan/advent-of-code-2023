@@ -1,13 +1,13 @@
+import re
 from pathlib import Path
 from typing import List, Tuple
 
 
-def calculate_row_points(card_numbers: int) -> int:
-    pass
-
-
 def parse_row(line: str) -> Tuple[List[int], List[int]]:
-    pass
+    _, content = str.split(":")
+    card_string, point_string = content.strip().split("|")
+    pattern = re.compile(r"\d+")
+    return pattern.findall(card_string), pattern.findall(point_string)
 
 
 def calculate_row_matches(
