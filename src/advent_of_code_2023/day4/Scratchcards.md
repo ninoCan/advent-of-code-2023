@@ -1,64 +1,4 @@
----
-lang: en-us
-title: Day 4 - Advent of Code 2023
----
-
-<div>
-
-<div>
-
-# [Advent of Code](/)
-
-- [\[About\]](/2023/about)
-- [\[Events\]](/2023/events)
-- <a href="https://teespring.com/stores/advent-of-code"
-  target="_blank">[Shop]</a>
-- [\[Log In\]](/2023/auth/login)
-
-</div>
-
-<div>
-
-#    <span class="title-event-wrap">0x0000\|</span>[2023](/2023)<span class="title-event-wrap"></span>
-
-- [\[Calendar\]](/2023)
-- [\[AoC++\]](/2023/support)
-- [\[Sponsors\]](/2023/sponsors)
-- [\[Leaderboard\]](/2023/leaderboard)
-- [\[Stats\]](/2023/stats)
-
-</div>
-
-</div>
-
-<div id="sidebar">
-
-<div id="sponsor">
-
-<div class="quiet">
-
-Our [sponsors](/2023/sponsors) help make Advent of Code possible:
-
-</div>
-
-<div class="sponsor">
-
-<a href="https://kotlinlang.org/" target="_blank"
-onclick="if(ga)ga(&#39;send&#39;,&#39;event&#39;,&#39;sponsor&#39;,&#39;sidebar&#39;,this.href);"
-rel="noopener">Kotlin by JetBrains</a> - Jingle bells, Kotlin pals,
-coding all the way! Solve puzzles, catch our daily livestreams for
-expert guidance, embrace the joy of Kotlin, and engage with a fantastic
-community. Happy holidays and happy coding!
-
-</div>
-
-</div>
-
-</div>
-
-<div role="main">
-
-## --- Day 4: Scratchcards ---
+# --- Day 4: Scratchcards ---
 
 The gondola takes you up. Strangely, though, the ground doesn't seem to
 be coming with you; you're not climbing a mountain. As the circle of
@@ -84,9 +24,8 @@ different island, though - er, the small kind surrounded by water, not
 the floating kind. We really need to come up with a better naming
 scheme. Tell you what: if you can help me with something quick, I'll let
 you *borrow my boat* and you can go visit the gardener. I got all these
-<a href="https://en.wikipedia.org/wiki/Scratchcard"
-target="_blank">scratchcards</a> as a gift, but I can't figure out what
-I've won."
+[scratchcards](https://en.wikipedia.org/wiki/Scratchcard)
+as a gift, but I can't figure out what I've won."
 
 The Elf leads you over to the pile of colorful cards. There, you
 discover dozens of scratchcards, all with their opaque covering already
@@ -129,11 +68,3 @@ points.
 
 Take a seat in the large pile of colorful cards. *How many points are
 they worth in total?*
-
-To play, please identify yourself via one of these services:
-
-[\[GitHub\]](/auth/github) [\[Google\]](/auth/google)
-[\[Twitter\]](/auth/twitter) [\[Reddit\]](/auth/reddit)
-<span class="quiet">- [\[How Does Auth Work?\]](/about#faq_auth)</span>
-
-</div>
