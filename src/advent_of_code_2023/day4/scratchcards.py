@@ -37,3 +37,4 @@ if __name__ == "__main__":
     with open(file_path) as file:
         lines = file.readlines()
     first_answer = calculate_victory_points(lines)
+    print("The answer is", first_answer)
