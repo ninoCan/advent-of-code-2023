@@ -1,26 +1,33 @@
 import re
 from pathlib import Path
-from typing import List, Tuple
+from typing import Set
 
 
-def parse_row(line: str) -> Tuple[List[int], List[int]]:
-    _, content = str.split(":")
-    card_string, point_string = content.strip().split("|")
+def parse_numbers(line_with_numbers: str) -> Set[int]:
     pattern = re.compile(r"\d+")
-    return pattern.findall(card_string), pattern.findall(point_string)
+    return set(pattern.findall(line_with_numbers))
 
 
 def calculate_row_matches(
-    card_numbers: List[int], winning_numbers: List[int]
+    card_numbers: Set[int],
+    winning_numbers: Set[int],
 ) -> int:
-    pass
+    return len([num for num in card_numbers if num in winning_numbers])
 
 
-def calculate_victory_points(lines):
+def calculate_row_points(card_matches: int) -> int:
+    return 0 if card_matches == 0 else 2 ** (card_matches - 1)
+
+
+def calculate_victory_points(all_lines):
     number_of_matches = [
-        calculate_row_matches(card_numbers, winning_numbers)
-        for line in lines
-        for card_numbers, winning_numbers in parse_row(line)
+        calculate_row_matches(
+            parse_numbers(card_string),
+            parse_numbers(winning_string),
+        )
+        for line in all_lines
+        for _, content in [line.split(":")]
+        for card_string, winning_string in [content.split("|")]
     ]
     return sum([calculate_row_points(matches) for matches in number_of_matches])
 
