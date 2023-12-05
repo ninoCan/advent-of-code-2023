@@ -3,28 +3,20 @@ import re
 from pathlib import Path
 from typing import List, Dict, Tuple
 
-import numpy as np
-from scipy.sparse import coo_matrix
+
+def create_translation_table(
+    dest_src_len_list: List[List[int]],
+) -> List[Tuple[int, int]]:
+    sort_by_src = sorted(dest_src_len_list, key=lambda x: x[1])
+    cols_to_swap = []
+    for dest, src, length in sort_by_src:
+        if src != 0:
+            cols_to_swap.extend(*range(src))
+        cols_to_swap.extend(*range(dest, dest + length))
+    return list(zip(range(len(cols_to_swap)), cols_to_swap))
 
 
-def swap_columns(index_map: List[Tuple[int, int]]) -> np.array:
-    matrix_size = len(index_map)
-    id_matrix = coo_matrix(np.eye(matrix_size))
-
-    for col1, col2 in index_map:
-        id_matrix.data, id_matrix.col[col1], id_matrix.col[col2] = (
-            id_matrix.data,
-            id_matrix.col[col2],
-            id_matrix.col[col1],
-        )
-    return id_matrix
-
-
-def multiply_map_matrices(dict_copy) -> np.array:
-    pass
-
-
-def assemble_matrix(value):
+def chain_translations(conversions, seeds) -> List[int]:
     pass
 
 
@@ -32,13 +24,14 @@ def calculate_minimum_location(
     seed_maps_dict: Dict[str, List[List[int]]]
 ) -> int:
     dict_copy = copy.deepcopy(seed_maps_dict)
-    seeds = np.array(dict_copy.pop("seeds"))
-    map_matrices = {
-        key: assemble_matrix(value) for key, value in seed_maps_dict.items()
+    seed_list = dict_copy.pop("seeds")
+    translation_tables = {
+        key: create_translation_table(value)
+        for key, value in seed_maps_dict.items()
     }
-    matrix_of_change = multiply_map_matrices(map_matrices)
+    destination_list = chain_translations(translation_tables, seed_list)
 
-    return np.min(np.dot(seeds, matrix_of_change))
+    return min(destination_list)
 
 
 def parse_digits(line: str) -> List[int]:
