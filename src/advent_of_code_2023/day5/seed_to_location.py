@@ -47,8 +47,23 @@ def parse_digits(line: str) -> List[int]:
 
 
 def parse(file_lines: List[str]) -> Dict[str, List[List[int]]]:
+    container = {}
     seed_line, *rest = file_lines
-    pass
+    container["seeds"] = parse_digits(seed_line.split(":")[1])
+
+    rules, key = [], ''
+    for line in rest[1:]:
+        if "map" in line:
+            key = line.split(" ")[0]
+            continue
+        elif len(line) < 2:
+            container[key], rules = rules, []
+            continue
+        rules.append(parse_digits(line))
+    else:
+        container[key] = rules
+
+    return container
 
 
 if __name__ == "__main__":
