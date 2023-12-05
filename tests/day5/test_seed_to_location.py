@@ -8,10 +8,9 @@ import pytest
 
 from src.advent_of_code_2023.day5.seed_to_location import (
     calculate_minimum_location,
-    swap_columns,
     parse,
-    assemble_matrix,
-    multiply_map_matrices,
+    create_translation_table,
+    chain_translations,
 )
 
 
@@ -25,29 +24,32 @@ def provide_test_lines() -> List[str]:
 
 
 @pytest.fixture
-def expected_matrix() -> np.array:
-    to_be_swapped = [*range(50), *range(52, 52 + 48), *range(50, 52)]
-    matrix_size = len(to_be_swapped)
-    cols_to_swap = list(zip(range(matrix_size), to_be_swapped))
-    return swap_columns(cols_to_swap)
-
-
-@pytest.fixture
 def provide_seed_maps_dict(
     provide_test_lines: List[str],
 ) -> Dict[str, List[List[int]]]:
     return parse(provide_test_lines)
 
 
-def test_multiply_map_matrices(provide_seed_maps_dict):
+def test_parse(provide_test_lines):
+    actual = parse(provide_test_lines)
+    assert actual is dict
+    assert len(actual.keys()) == 8
+    assert "seeds" in actual.keys()
+    assert len(actual["seeds"]) == 4
+    actual.pop("seeds")
+    for _, value in actual.items():
+        assert len(value) == 3
+
+def test_chain_translations(provide_seed_maps_dict):
     test_dict = copy.deepcopy(provide_seed_maps_dict)
     seeds = np.array(test_dict.pop("seeds"))
     expected = [82, 43, 86, 35]
-    under_test = multiply_map_matrices(test_dict)
-    actual = np.dot(seeds, multiply_map_matrices(test_dict))
+    actual = chain_translations(test_dict, seeds)
     assert actual == expected
 
 
-def test_assemble_matrix(provide_seed_maps_dict, expected_matrix):
-    actual = assemble_matrix(provide_seed_maps_dict["seed-to-soil"])
+def test_create_translation_table(provide_seed_maps_dict, expected_matrix):
+    to_be_swapped = [*range(50), *range(52, 52 + 48), *range(50, 52)]
+    expected = list(zip(range(len(to_be_swapped)), to_be_swapped))
+    actual = create_translation_table(provide_seed_maps_dict["seed-to-soil"])
     assert actual == expected_matrix
