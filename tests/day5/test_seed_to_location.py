@@ -40,6 +40,7 @@ def test_parse(provide_test_lines):
     for _, value in actual.items():
         assert len(value) == 3
 
+
 def test_chain_translations(provide_seed_maps_dict):
     test_dict = copy.deepcopy(provide_seed_maps_dict)
     seeds = np.array(test_dict.pop("seeds"))

@@ -16,8 +16,24 @@ def create_translation_table(
     return list(zip(range(len(cols_to_swap)), cols_to_swap))
 
 
-def chain_translations(conversions, seeds) -> List[int]:
-    pass
+def get_next_key(previous: str, remaining_keys: List[str]) -> str:
+    lookup_bit = previous.split("-")[-1]
+    pattern = re.compile(r"^" + lookup_bit)
+    matching_elements = list(filter(pattern.match, remaining_keys))
+    return matching_elements[0] if len(matching_elements) != 0 else None
+
+
+def chain_translations(translations, seeds) -> List[int]:
+    new_seeds = copy.deepcopy(seeds)
+    conversions = copy.deepcopy(translations)
+    key = "seeds"
+
+    while len(keys := conversions.keys()) != 0:
+        key = get_next_key(key, keys)
+        table = conversions.pop(key)
+        new_seeds = [table[seed - 1] for seed in new_seeds]
+
+    return new_seeds
 
 
 def calculate_minimum_location(
