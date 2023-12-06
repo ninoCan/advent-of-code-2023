@@ -1,9 +1,9 @@
 YEAR := $(shell date +'%Y')
 DAY := $(shell date +'%d' | sed 's/^0//')
 FOLDER_PATH := src/advent_of_code_2023/day$(DAY)
-TEST_FOLDER := test/day$(DAY)
+TEST_FOLDER := tests/day$(DAY)
 URL_FOR_TODAY :=  "https://adventofcode.com/$(YEAR)/day/$(DAY)"
-BRANCH_NAME := day$(day)-challenge1
+BRANCH_NAME := day$(DAY)-challenge1
 
 .PHONY: create-folder fetch-page convert-to-markdown
 
