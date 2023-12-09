@@ -6,7 +6,7 @@ URL_FOR_TODAY :=  "https://adventofcode.com/$(YEAR)/day/$(DAY)"
 BRANCH_NAME := day$(DAY)-challenge1
 DEFAULT_STEM := README
 
-.PHONY: create-folder fetch-page convert-to-markdown
+.PHONY: create-folder fetch-page generate-pyfiles convert-to-markdown commit-prompt
 
 all: convert-to-markdown generate-pyfiles commit-prompt
 
@@ -21,13 +21,16 @@ fetch-page: create-folder
 	@echo "Fetched page for day $(DAY) to $(FOLDER_PATH)"
 
 convert-to-markdown: fetch-page
-	pandoc -f html -t gfm -s "$(FOLDER_PATH)/day$(DAY).html" | sed -n '/^##/,/\?\*$$/p' | sed 's/^##/#/' > $(FOLDER_PATH)/$(DEFAULT_STEM).md
+	pandoc -f html -t gfm -s "$(FOLDER_PATH)/day$(DAY).html" | \
+		sed -n '/^##/,/\?\*$$/p' | \
+		sed 's/^##/#/' \
+		> $(FOLDER_PATH)/$(DEFAULT_STEM).md
 	rm "$(FOLDER_PATH)/day$(DAY).html" 
 	@echo "Saved fetched prompt page to $(FOLDER_PATH)/$(DEFAULT_STEM).md"
 
-generate-pyfiles:
-    hatch run python templates/generator.py
-    @echo "Created skeletons of main and tests from templates"
+generate-pyfiles: convert-to-markdown
+	hatch run python templates/generator.py
+	    @echo "Created skeletons of main and tests from templates"
 
 commit-prompt:
 	git switch -c $(BRANCH_NAME)
