@@ -10,6 +10,7 @@ from src.advent_of_code_2023.day9.main import (
     main,
     part_two_main,
     predict_next_value,
+    parse_integers,
 )
 
 
@@ -49,5 +50,5 @@ def test_predict_next_value(provide_test_lines, input_index, expected) -> None:
     ],
 )
 def test_parse_integers(stub_line, expected) -> None:
-    actual = parse_integer(stub_line)
+    actual = parse_integers(stub_line)
     assert actual == expected

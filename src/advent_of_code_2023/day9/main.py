@@ -1,8 +1,7 @@
 import itertools
+import re
 from pathlib import Path
 from typing import List
-
-from src.advent_of_code_2023.day5.seed_to_location import parse_digits
 
 
 def assemble_triangle(sequence: List[int]) -> List[List[int]]:
@@ -27,7 +26,8 @@ def extend_triangle(triangle: List[List[int]]) -> List[List[int]]:
 
 
 def parse_integers(line):
-    pass
+    pattern = re.compile(r"-?\d+")
+    return [int(item) for item in pattern.findall(line)]
 
 
 def predict_next_value(line: str) -> int:
