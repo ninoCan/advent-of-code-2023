@@ -9,6 +9,7 @@ import pytest
 from src.advent_of_code_2023.day9.main import (
     main,
     part_two_main,
+    predict_next_value,
 )
 
 
@@ -29,4 +30,11 @@ def test_main(provide_test_lines: List[str]) -> None:
 def test_part_two_main(provide_test_lines: List[str]) -> None:
     expected = "placeholder"
     actual = part_two_main(provide_test_lines)
+    assert actual == expected
+
+
+@pytest.mark.parametrize('input_index, expected', [(0, 18), (1, 28), (2, 68)])
+def test_predict_next_value(provide_test_lines, input_index, expected) -> None:
+    line_stub = provide_test_lines[input_index]
+    actual = predict_next_value(line_stub)
     assert actual == expected
