@@ -4,10 +4,11 @@ FOLDER_PATH := src/advent_of_code_2023/day$(DAY)
 TEST_FOLDER := tests/day$(DAY)
 URL_FOR_TODAY :=  "https://adventofcode.com/$(YEAR)/day/$(DAY)"
 BRANCH_NAME := day$(DAY)-challenge1
+DEFAULT_STEM := README
 
 .PHONY: create-folder fetch-page convert-to-markdown
 
-all: convert-to-markdown commit-prompt
+all: convert-to-markdown generate-pyfiles commit-prompt
 
 create-folder:
 	mkdir -p $(FOLDER_PATH)
@@ -20,11 +21,13 @@ fetch-page: create-folder
 	@echo "Fetched page for day $(DAY) to $(FOLDER_PATH)"
 
 convert-to-markdown: fetch-page
-	$(eval DEFAULT_STEM := $(shell cat $(FOLDER_PATH)/day$(DAY).html | grep -Eo '(day-desc).*(</h2>)' | sed -E 's/(.*: )(.*)( ---.*)/\2/; s/ /_/g'))
 	pandoc -f html -t gfm -s "$(FOLDER_PATH)/day$(DAY).html" | sed -n '/^##/,/\?\*$$/p' | sed 's/^##/#/' > $(FOLDER_PATH)/$(DEFAULT_STEM).md
 	rm "$(FOLDER_PATH)/day$(DAY).html" 
-	@echo "Converted fetched page to $(FOLDER_PATH)/$(DEFAULT_STEM).md"
+	@echo "Saved fetched prompt page to $(FOLDER_PATH)/$(DEFAULT_STEM).md"
 
+generate-pyfiles:
+    hatch run python templates/generator.py
+    @echo "Created skeletons of main and tests from templates"
 
 commit-prompt:
 	git switch -c $(BRANCH_NAME)
