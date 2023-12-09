@@ -44,8 +44,32 @@ def main(lines: List[str]) -> int:
     return sum(predictions)
 
 
-def part_two_main(lines: List[str]) -> int:
+def pre_extend_triangle(triangle: List[List[int]]) -> List[List[int]]:
+    zeros = triangle[0]
+    zeros.append(0)
+    new_triangle = [zeros]
+    for line in triangle[1:]:
+        new_line = line
+        new_line.insert(0, line[0] - new_triangle[-1][0])
+        new_triangle.append(new_line)
+    return new_triangle
     pass
+
+
+def predict_previous_value(line):
+    initial_sequence: List[int] = parse_integers(line)
+    reversed_initial_triangle = list(
+        reversed(assemble_triangle(initial_sequence))
+    )
+    final_triangle: List[List[int]] = pre_extend_triangle(
+        reversed_initial_triangle
+    )
+    return final_triangle[-1][0]
+
+
+def part_two_main(lines: List[str]) -> int:
+    postdictions = [predict_previous_value(line) for line in lines]
+    return sum(postdictions)
 
 
 if __name__ == "__main__":

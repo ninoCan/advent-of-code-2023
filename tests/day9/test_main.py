@@ -11,6 +11,7 @@ from src.advent_of_code_2023.day9.main import (
     part_two_main,
     predict_next_value,
     parse_integers,
+    predict_previous_value,
 )
 
 
@@ -29,7 +30,7 @@ def test_main(provide_test_lines: List[str]) -> None:
 
 
 def test_part_two_main(provide_test_lines: List[str]) -> None:
-    expected = "placeholder"
+    expected = 2
     actual = part_two_main(provide_test_lines)
     assert actual == expected
 
@@ -38,6 +39,15 @@ def test_part_two_main(provide_test_lines: List[str]) -> None:
 def test_predict_next_value(provide_test_lines, input_index, expected) -> None:
     line_stub = provide_test_lines[input_index]
     actual = predict_next_value(line_stub)
+    assert actual == expected
+
+
+@pytest.mark.parametrize('input_index, expected', [(0, -3), (1, 0), (2, 5)])
+def test_predict_previous_value(
+    provide_test_lines, input_index, expected
+) -> None:
+    line_stub = provide_test_lines[input_index]
+    actual = predict_previous_value(line_stub)
     assert actual == expected
 
 
