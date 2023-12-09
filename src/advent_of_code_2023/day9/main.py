@@ -26,8 +26,12 @@ def extend_triangle(triangle: List[List[int]]) -> List[List[int]]:
     return new_triangle
 
 
+def parse_integers(line):
+    pass
+
+
 def predict_next_value(line: str) -> int:
-    initial_sequence: List[int] = parse_digits(line)
+    initial_sequence: List[int] = parse_integers(line)
     reversed_initial_triangle = list(
         reversed(assemble_triangle(initial_sequence))
     )

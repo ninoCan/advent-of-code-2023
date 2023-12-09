@@ -38,3 +38,16 @@ def test_predict_next_value(provide_test_lines, input_index, expected) -> None:
     line_stub = provide_test_lines[input_index]
     actual = predict_next_value(line_stub)
     assert actual == expected
+
+
+@pytest.mark.parametrize(
+    'stub_line, expected',
+    [
+        ("-2 0 2 4 6", [-2, 0, 2, 4, 6]),
+        ("0 -1 1 3 8", [0, -1, 1, 3, 8]),
+        ("1 2 3 4 5", [1, 2, 3, 4, 5]),
+    ],
+)
+def test_parse_integers(stub_line, expected) -> None:
+    actual = parse_integer(stub_line)
+    assert actual == expected
