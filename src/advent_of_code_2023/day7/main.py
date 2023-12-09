@@ -2,8 +2,13 @@ from pathlib import Path
 from typing import List
 
 
-def main(lines: List[str]) -> int:
+def order_by_rank(lines):
     pass
+
+
+def main(lines: List[str]) -> int:
+    ordered_by_rank = order_by_rank(lines)
+    bid_times_rank = [index * bid for index, bid in enumerate(ordered_by_rank)]
 
 
 def part_two_main(lines: List[str]) -> int:
