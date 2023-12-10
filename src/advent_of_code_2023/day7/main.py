@@ -2,8 +2,17 @@ from pathlib import Path
 from typing import List
 
 
-def order_by_rank(lines):
-    pass
+def order_by_rank(lines: List[str]) -> List[str]:
+    order = 'AKQJT98765432'
+    card_bid_list = [
+        (char, bid) for line in lines for (char, bid) in [line.split()]
+    ]
+    return sorted(
+        lines,
+        key=lambda line: [
+            [order.index(char) for char in card] for (card, _) in card_bid_list
+        ],
+    )
 
 
 def main(lines: List[str]) -> int:
