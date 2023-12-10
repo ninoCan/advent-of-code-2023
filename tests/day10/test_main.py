@@ -1,5 +1,3 @@
-""" This is a template file do not use it directly.
-"""
 from inspect import getsourcefile
 from pathlib import Path
 from typing import List
@@ -16,13 +14,30 @@ from src.advent_of_code_2023.day10.main import (
 def provide_test_lines() -> List[str]:
     source_path = Path(getsourcefile(main)).resolve().parent / 'README.md'
     with source_path.open("r") as file:
-        example_slice = slice("n - 1", "m")
-        return [line.strip() for line in file.readlines()[example_slice]]
+        example_slice = [
+            slice(53, 58),
+            slice(65, 70),
+            slice(80, 85),
+            slice(89, 94),
+        ]
+        return [
+            line.strip()
+            for a_slice in example_slice
+            for line in file.readlines()[a_slice]
+        ]
 
 
-def test_main(provide_test_lines: List[str]) -> None:
-    expected = "placeholder"
-    actual = main(provide_test_lines)
+@pytest.mark.parametrize(
+    'a_slice, expected',
+    [
+        (slice(0, 6), 4),
+        (slice(6, 11), 4),
+        (slice(11, 15), 8),
+        (slice(15, 21), 8),
+    ],
+)
+def test_main(provide_test_lines, a_slice, expected) -> None:
+    actual = main(provide_test_lines[a_slice])
     assert actual == expected
 
 
