@@ -32,11 +32,15 @@ class PipeBoard(Board):
         north, south = x - 1, x + 1
         west, east = y - 1, y + 1
         if (value := self.get(north, y)) in north_pieces:
-            good_neighbors.append(PipeCoords(north, y, value))
+            if current.value in 'S|LJ':
+                good_neighbors.append(PipeCoords(north, y, value))
         if (value := self.get(south, y)) in south_pieces:
-            good_neighbors.append(PipeCoords(south, y, value))
+            if current.value in 'S|7F':
+                good_neighbors.append(PipeCoords(south, y, value))
         if (value := self.get(x, west)) in west_pieces:
-            good_neighbors.append(PipeCoords(x, west, value))
+            if current.value in 'S-7J':
+                good_neighbors.append(PipeCoords(x, west, value))
         if (value := self.get(x, east)) in east_pieces:
-            good_neighbors.append(PipeCoords(x, east, value))
+            if current.value in 'S-FL':
+                good_neighbors.append(PipeCoords(x, east, value))
         return good_neighbors
