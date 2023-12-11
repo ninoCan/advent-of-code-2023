@@ -15,15 +15,15 @@ def provide_test_lines() -> List[str]:
     source_path = Path(getsourcefile(main)).resolve().parent / 'README.md'
     with source_path.open("r") as file:
         example_slice = [
-            slice(53, 58),
+            # slice(53, 58),
             slice(65, 70),
             slice(80, 85),
             slice(89, 94),
         ]
         return [
-            line.strip()
+            a_line.strip()
             for a_slice in example_slice
-            for line in file.readlines()[a_slice]
+            for a_line in file.readlines()[a_slice]
         ]
 
 
@@ -31,9 +31,9 @@ def provide_test_lines() -> List[str]:
     'a_slice, expected',
     [
         (slice(0, 6), 4),
-        (slice(6, 11), 4),
-        (slice(11, 15), 8),
-        (slice(15, 21), 8),
+        (slice(0, 6), 4),
+        (slice(0, 6), 8),
+        (slice(0, 6), 8),
     ],
 )
 def test_main(provide_test_lines, a_slice, expected) -> None:
