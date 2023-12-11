@@ -1,16 +1,15 @@
-import copy
+from collections import OrderedDict
 from inspect import getsourcefile
 from pathlib import Path
-from typing import List, Dict
+from typing import List
 
-import numpy as np
 import pytest
 
 from src.advent_of_code_2023.day5.seed_to_location import (
     calculate_minimum_location,
     parse,
-    create_translation_table,
-    chain_translations,
+    reroute_point,
+    parse_digits,
 )
 
 
@@ -26,31 +25,21 @@ def provide_test_lines() -> List[str]:
 @pytest.fixture
 def provide_seed_maps_dict(
     provide_test_lines: List[str],
-) -> Dict[str, List[List[int]]]:
+) -> OrderedDict[str, List[str]]:
     return parse(provide_test_lines)
 
 
-def test_parse(provide_test_lines):
-    actual = parse(provide_test_lines)
-    assert actual is dict
-    assert len(actual.keys()) == 8
-    assert "seeds" in actual.keys()
-    assert len(actual["seeds"]) == 4
-    actual.pop("seeds")
-    for _, value in actual.items():
-        assert len(value) == 3
-
-
-def test_chain_translations(provide_seed_maps_dict):
-    test_dict = copy.deepcopy(provide_seed_maps_dict)
-    seeds = np.array(test_dict.pop("seeds"))
-    expected = [82, 43, 86, 35]
-    actual = chain_translations(test_dict, seeds)
+def test_reroute_point(provide_seed_maps_dict):
+    expected = [81, 14, 57, 13]
+    seeds = provide_seed_maps_dict["seeds"]
+    map_stub = provide_seed_maps_dict["seed-to-soil"]
+    actual = [
+        reroute_point(map_stub, seed) for seed in parse_digits(str(seeds))
+    ]
     assert actual == expected
 
 
-def test_create_translation_table(provide_seed_maps_dict, expected_matrix):
-    to_be_swapped = [*range(50), *range(52, 52 + 48), *range(50, 52)]
-    expected = list(zip(range(len(to_be_swapped)), to_be_swapped))
-    actual = create_translation_table(provide_seed_maps_dict["seed-to-soil"])
-    assert actual == expected_matrix
+def test_calculate_minimum_location(provide_seed_maps_dict):
+    expected = [82, 43, 86, 35]
+    actual = calculate_minimum_location(provide_seed_maps_dict)
+    assert actual == expected

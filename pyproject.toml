@@ -26,7 +26,8 @@ classifiers = [
 ]
 dependencies = [
   "numpy",
-  "scipy"
+  "scipy",
+  "jinja2",
 ]
 
 [project.urls]
@@ -42,7 +43,9 @@ dependencies = [
   "coverage[toml]>=6.5",
   "pytest",
 ]
+
 [tool.hatch.envs.default.scripts]
+generate = "python templates/generator.py"
 test = "pytest {args:tests}"
 test-cov = "coverage run -m pytest {args:tests}"
 cov-report = [

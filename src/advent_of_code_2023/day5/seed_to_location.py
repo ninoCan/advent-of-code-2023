@@ -1,64 +1,42 @@
 import copy
+import collections
 import re
 from pathlib import Path
-from typing import List, Dict, Tuple
+from typing import List, OrderedDict
 
 
-def create_translation_table(
-    dest_src_len_list: List[List[int]],
-) -> List[Tuple[int, int]]:
-    sort_by_src = sorted(dest_src_len_list, key=lambda x: x[1])
-    cols_to_swap = []
-    for dest, src, length in sort_by_src:
-        if src != 0:
-            cols_to_swap.extend(*range(src))
-        cols_to_swap.extend(*range(dest, dest + length))
-    return list(zip(range(len(cols_to_swap)), cols_to_swap))
-
-
-def get_next_key(previous: str, remaining_keys: List[str]) -> str:
-    lookup_bit = previous.split("-")[-1]
-    pattern = re.compile(r"^" + lookup_bit)
-    matching_elements = list(filter(pattern.match, remaining_keys))
-    return matching_elements[0] if len(matching_elements) != 0 else None
-
-
-def chain_translations(translations, seeds) -> List[int]:
-    new_seeds = copy.deepcopy(seeds)
-    conversions = copy.deepcopy(translations)
-    key = "seeds"
-
-    while len(keys := conversions.keys()) != 0:
-        key = get_next_key(key, keys)
-        table = conversions.pop(key)
-        new_seeds = [table[seed - 1] for seed in new_seeds]
-
-    return new_seeds
+def reroute_point(map_lines: List[str], point: int) -> int:
+    for line in map_lines:
+        destination, source, length = tuple(parse_digits(line))
+        if (point < source + length) and (point > source):
+            delta = point - source
+            return destination + delta
+    else:
+        return point
 
 
 def calculate_minimum_location(
-    seed_maps_dict: Dict[str, List[List[int]]]
+    seed_maps_dict: OrderedDict[str, List[str]]
 ) -> int:
     dict_copy = copy.deepcopy(seed_maps_dict)
-    seed_list = dict_copy.pop("seeds")
-    translation_tables = {
-        key: create_translation_table(value)
-        for key, value in seed_maps_dict.items()
-    }
-    destination_list = chain_translations(translation_tables, seed_list)
+    seeds = parse_digits(str(dict_copy.pop("seeds")))
 
-    return min(destination_list)
+    points = seeds
+    for key in dict_copy.keys():
+        points = [reroute_point(dict_copy[key], point) for point in points]
+
+    return min(points)
 
 
 def parse_digits(line: str) -> List[int]:
     pattern = re.compile(r'\d+')
-    return pattern.findall(line)
+    return [int(number) for number in pattern.findall(line)]
 
 
-def parse(file_lines: List[str]) -> Dict[str, List[List[int]]]:
-    container = {}
+def parse(file_lines: List[str]) -> OrderedDict[str, List[str]]:
+    container = collections.OrderedDict()
     seed_line, *rest = file_lines
-    container["seeds"] = parse_digits(seed_line.split(":")[1])
+    container["seeds"] = seed_line
 
     rules, key = [], ''
     for line in rest[1:]:
@@ -68,7 +46,7 @@ def parse(file_lines: List[str]) -> Dict[str, List[List[int]]]:
         elif len(line) < 2:
             container[key], rules = rules, []
             continue
-        rules.append(parse_digits(line))
+        rules.append(line)
     else:
         container[key] = rules
 
