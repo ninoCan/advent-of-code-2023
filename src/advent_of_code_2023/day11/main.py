@@ -6,7 +6,9 @@ from advent_of_code_2023.day11.Universe import Universe
 
 
 def l1_distance(pair):
-    pass
+    x_coords = [item.x for item in pair]
+    y_coords = [item.y for item in pair]
+    return abs(x_coords[0] - x_coords[1]) + abs(y_coords[0] - y_coords[1])
 
 
 def main(lines: List[str]) -> int:
