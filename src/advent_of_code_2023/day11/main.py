@@ -12,7 +12,7 @@ def l1_distance(pair):
 
 
 def main(lines: List[str]) -> int:
-    past_universe = Universe(lines)
+    past_universe = Universe.init_from_string_list(lines)
     present_universe = past_universe.expand()
     galaxies = present_universe.galaxies
     paired_galaxies = itertools.pairwise(galaxies)

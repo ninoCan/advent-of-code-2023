@@ -4,10 +4,10 @@ from typing import List
 
 import pytest
 
+from advent_of_code_2023.day11.Universe import Universe
 from src.advent_of_code_2023.day11.main import (
     main,
     part_two_main,
-    expand_universe,
 )
 
 
@@ -20,11 +20,13 @@ def lines_stub() -> List[str]:
 
 
 @pytest.fixture
-def expected_universe() -> List[str]:
+def expected_universe() -> Universe:
     source_path = Path(getsourcefile(main)).resolve().parent / 'README.md'
     with source_path.open("r") as file:
         example_slice = slice(56, 68)
-        return [line.strip() for line in file.readlines()[example_slice]]
+        return Universe.init_from_string_list(
+            [line.strip() for line in file.readlines()[example_slice]]
+        )
 
 
 def test_main(lines_stub) -> None:
@@ -34,7 +36,8 @@ def test_main(lines_stub) -> None:
 
 
 def test_expand_universe(lines_stub, expected_universe) -> None:
-    actual = expand_universe(lines_stub)
+    universe_stub = Universe.init_from_string_list(lines_stub)
+    actual = universe_stub.expand()
     assert actual == expected_universe
 
 
