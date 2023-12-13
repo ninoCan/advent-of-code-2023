@@ -7,6 +7,8 @@ import pytest
 from src.advent_of_code_2023.day12.main import (
     main,
     part_two_main,
+    parse,
+    count_arrangements,
 )
 
 
@@ -30,9 +32,10 @@ def provide_test_lines() -> List[str]:
     ],
 )
 def test_count_arrangements(line, expected, provide_test_lines):
-    line_stub = parse(provide_test_lines[line])
-    actual = count_arragements(line_stub)
+    line_stub = parse([provide_test_lines[line]])
+    actual = count_arrangements(*line_stub.keys(), *line_stub.values())
     assert actual == expected
+
 
 def test_main(provide_test_lines: List[str]) -> None:
     expected = 21
