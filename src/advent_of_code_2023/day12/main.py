@@ -36,16 +36,22 @@ def count_arrangements(springs: str, summary: List[int]) -> int:
     springs_signature = signature(reduced)
     minimal_signature = signature(minimal_string)
 
-    if (
-        len_delta := sum(springs_signature.values())
-        - sum(minimal_signature.values())
-    ) == 0:
-        return 1
-    delta_hash = abs(springs_signature["#"] - minimal_signature["#"])
-    delta_dots = abs(springs_signature["."] - minimal_signature["."])
-    unconstrained = abs(springs_signature["?"] - delta_dots - delta_hash)
-    unknown = springs_signature["?"]
-    pass
+    # if (
+    #     len_delta := sum(springs_signature.values())
+    #     - sum(minimal_signature.values())
+    # ) == 0:
+    #     return 1
+    number_of_dots_to_fill = (
+        len(springs) - minimal_signature["#"] - springs_signature['.']
+    )
+    number_of_spots_for_dots = (
+        len(springs) - len(summary) - springs_signature["."]
+    )
+    # delta_hash = abs(springs_signature["#"] - minimal_signature["#"])
+    # delta_dots = abs(springs_signature["."] - minimal_signature["."])
+    # unconstrained = abs(springs_signature["?"] - delta_dots - delta_hash)
+    # unknown = springs_signature["?"]
+    return math.comb(number_of_spots_for_dots, number_of_dots_to_fill)
 
 
 def main(input_lines: List[str]) -> int:
