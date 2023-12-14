@@ -1,9 +1,16 @@
 from pathlib import Path
 from typing import List
 
+from advent_of_code_2023.day14.ParabolicReflectorWIthRocks import (
+    ParabolicReflectorWithRocks,
+)
+
 
 def main(input_lines: List[str]) -> int:
-    pass
+    initial_dish = ParabolicReflectorWithRocks.from_lines(input_lines)
+    final_dish = initial_dish.tilt("north")
+    print(final_dish._board)
+   return final_dish.total_load
 
 
 def part_two_main(input_lines: List[str]) -> int:
