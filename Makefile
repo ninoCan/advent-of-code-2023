@@ -8,7 +8,11 @@ DEFAULT_STEM := README
 
 .PHONY: create-folder fetch-page generate-pyfiles convert-to-markdown commit-prompt
 
-all: convert-to-markdown generate-pyfiles commit-prompt
+all: convert-to-markdown generate-pyfiles fetch-input commit-prompt
+
+ifndef AOC_SESSION_COOKIE
+	@echo Please store the session cookie into a AOC_SESSION_COOKIE
+endif
 
 create-folder:
 	mkdir -p $(FOLDER_PATH)
@@ -27,6 +31,10 @@ convert-to-markdown: fetch-page
 		> $(FOLDER_PATH)/$(DEFAULT_STEM).md
 	rm "$(FOLDER_PATH)/day$(DAY).html" 
 	@echo "Saved fetched prompt page to $(FOLDER_PATH)/$(DEFAULT_STEM).md"
+
+fetch-input: create-folder
+	curl --cookie "session=$(AOC_SESSION_COOCKIE)" -o "$(FOLDER_PATH)/input.txt" "$(URL_FOR_TODAY)/input"
+	@echo "Fetched input file for day $(DAY) to $(FOLDER_PATH)"
 
 generate-pyfiles: convert-to-markdown
 	hatch run python templates/generator.py
