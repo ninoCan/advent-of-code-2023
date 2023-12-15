@@ -1,3 +1,5 @@
+include .env
+
 YEAR := $(shell date +'%Y')
 DAY := $(shell date +'%d' | sed 's/^0//')
 FOLDER_PATH := src/advent_of_code_2023/day$(DAY)
@@ -11,7 +13,10 @@ DEFAULT_STEM := README
 all: convert-to-markdown generate-pyfiles fetch-input commit-prompt
 
 ifndef AOC_SESSION_COOKIE
-	@echo Please store the session cookie into a AOC_SESSION_COOKIE
+	echo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	echo Please store the session cookie into a AOC_SESSION_COOKIE
+	echo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	echo
 endif
 
 create-folder:
@@ -33,7 +38,7 @@ convert-to-markdown: fetch-page
 	@echo "Saved fetched prompt page to $(FOLDER_PATH)/$(DEFAULT_STEM).md"
 
 fetch-input: create-folder
-	curl --cookie "session=$(AOC_SESSION_COOCKIE)" -o "$(FOLDER_PATH)/input.txt" "$(URL_FOR_TODAY)/input"
+	curl --cookie "session=${AOC_SESSION_COOKIE}" -o "$(FOLDER_PATH)/input.txt" "$(URL_FOR_TODAY)/input"
 	@echo "Fetched input file for day $(DAY) to $(FOLDER_PATH)"
 
 generate-pyfiles: convert-to-markdown
@@ -43,5 +48,5 @@ generate-pyfiles: convert-to-markdown
 commit-prompt:
 	git switch -c $(BRANCH_NAME)
 	git add $(FOLDER_PATH) $(TEST_FOLDER)
-	git commit -m "Add prompt for day $(DAY)"
+	git commit -m "chore: Add prompt for day $(DAY)"
 	git push -u origin $(BRANCH_NAME)
