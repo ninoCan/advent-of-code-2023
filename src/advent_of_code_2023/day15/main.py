@@ -2,11 +2,15 @@ from pathlib import Path
 from typing import List
 
 
-def main(input_lines: List[str]) -> int:
+def hasher(string_to_hash: str) -> int:
     pass
 
 
-def part_two_main(input_lines: List[str]) -> int:
+def main(input_lines: list[str]) -> int:
+    pass
+
+
+def part_two_main(input_lines: list[str]) -> int:
     pass
 
 
@@ -18,3 +22,7 @@ if __name__ == "__main__":
     print("The first answer is", first_answer)
     second_answer = part_two_main(lines)
     print("The second answer is", second_answer)
+
+
+def hasher(string_to_hash):
+    pass
