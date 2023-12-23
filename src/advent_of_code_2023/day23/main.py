@@ -1,9 +1,13 @@
 from pathlib import Path
 from typing import List
 
+from advent_of_code_2023.day23.labirinth import Labyrinth
+
 
 def main(input_lines: List[str]) -> int:
-    pass
+    game_map = Labyrinth.parse(lines)
+    paths = game_map.extract_paths()
+    return paths.max_length
 
 
 def part_two_main(input_lines: List[str]) -> int:
