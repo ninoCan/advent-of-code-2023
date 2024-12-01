@@ -15,7 +15,7 @@
 ### Save prompt as GFM
 Download today's prompt,
 and translate it on the flight into
-[GitHub Flavore Markdown](https://github.github.com/gfm/)
+[GitHub Flavored Markdown](https://github.github.com/gfm/)
 (or any format you prefer) using 
 [curl](https://curl.se)+[pandoc](https://pandoc.org) :
 
